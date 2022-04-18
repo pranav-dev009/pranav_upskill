@@ -16,7 +16,7 @@
         </tr>
         <tr>
             <th>Quantity:</th>
-            <td>{{ $item->quanity }}</td>
+            <td>{{ $item->quantity }}</td>
         </tr>
         <tr>
             <th>Rate:</th>

@@ -14,9 +14,8 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        //
         $items = Items::all();
-        return view('items:list', compact('items', 'items'));
+        return view('items.list', ['items' => $items]);
     }
 
     /**
@@ -59,9 +58,10 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function show(Items $items)
+    public function show($id)
     {
-        return view('item.view',compact('item'));
+        $item = Items::findOrFail($id);
+        return view('items.view', ['item' => $item]);
     }
 
     /**
@@ -70,9 +70,10 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function edit(Items $items)
+    public function edit($id)
     {
-        return view('item.edit',compact('item'));
+        $item = Items::findOrFail($id);
+        return view('items.edit', ['item' => $item]);
     }
 
     /**
@@ -82,7 +83,7 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Items $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'name'=>'required',
@@ -95,7 +96,7 @@ class ItemsController extends Controller
         $item->quantity = $request->get('quantity');
         $item->rate = $request->get('rate');
  
-        $item->update();
+        $item->save();
  
         return redirect('/item')->with('success', 'Item updated successfully');
     }

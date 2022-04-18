@@ -24,15 +24,15 @@
         @csrf
         <div class="form-group">
             <label for="itemName">Name:</label>
-            <input type="text" class="form-control" id="itemName" placeholder="Enter First Name" name="itemName">
+            <input type="text" class="form-control" id="name" placeholder="Enter Item Name" name="name">
         </div>
         <div class="form-group">
             <label for="itemQuantity">Quantity:</label>
-            <input type="text" class="form-control" id="itemQuantity" placeholder="Enter Last Name" name="itemQuantity">
+            <input type="text" class="form-control" id="quantity" placeholder="Enter Item Quantity" name="quantity">
         </div>
         <div class="form-group">
             <label for="itemRate">Rate:</label>
-            <input type="text" class="form-control" id="itemRate" placeholder="Enter Address" name="itemRate">
+            <input type="text" class="form-control" id="rate" placeholder="Enter Item Rate" name="rate">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>

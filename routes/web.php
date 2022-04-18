@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ItemsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +27,5 @@ Route::get('/people/{id?}', function ($id) {
 })->name('people.show');
 
   
-Route::resource('item', ItemsController::class);
+Route::resource('item', ItemsController::class)
+->only(['index', 'create', 'show', 'store', 'edit', 'update', 'destory']);
