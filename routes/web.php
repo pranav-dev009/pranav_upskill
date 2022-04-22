@@ -28,4 +28,4 @@ Route::get('/people/{id?}', function ($id) {
 
   
 Route::resource('item', ItemsController::class)
-->only(['index', 'create', 'show', 'store', 'edit', 'update', 'destory']);
+->only(['index', 'create', 'show', 'store', 'edit', 'update']);

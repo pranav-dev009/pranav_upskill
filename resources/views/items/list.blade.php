@@ -10,12 +10,6 @@
         </div>
     </div>
 
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-
     <table class="table table-bordered">
         <tr>
             <th>No</th>
@@ -33,15 +27,7 @@
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->quantity }}</td>
                 <td>{{ $item->rate }}</td>
-                <td>
-                    <form action="" method="POST">
-                        <a class="btn btn-info" href="{{ route('item.show', $item->id) }}">Show</a>
-                        <a class="btn btn-primary" href="{{ route('item.edit', $item->id) }}">Edit</a>
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
+                <td><a class="btn btn-primary" href="{{ route('item.edit', $item->id) }}">Edit</a></td>
             </tr>
         @endforeach
     </table>

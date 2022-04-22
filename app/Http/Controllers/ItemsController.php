@@ -98,7 +98,7 @@ class ItemsController extends Controller
  
         $item->save();
  
-        return redirect('/item')->with('success', 'Item updated successfully');
+        return redirect('/item');
     }
 
     /**
@@ -109,7 +109,6 @@ class ItemsController extends Controller
      */
     public function destroy(Items $items)
     {
-        $items->delete();
-        return redirect('/item')->with('success', 'Item deleted successfully');
+        //
     }
 }

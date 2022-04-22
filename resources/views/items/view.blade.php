@@ -2,11 +2,8 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-11">
-                <h2>Items CRUD</h2>
-        </div>
-        <div class="col-lg-1">
-            <a class="btn btn-primary" href="{{ url('item') }}"> Back</a>
+        <div>
+            <h2>Items CRUD</h2>
         </div>
     </div>
     <table class="table table-bordered">

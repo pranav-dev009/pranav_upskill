@@ -2,24 +2,10 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-11">
+        <div>
             <h2>Update item</h2>
         </div>
-        <div class="col-lg-1">
-            <a class="btn btn-primary" href="{{ url('item') }}"> Back</a>
-        </div>
     </div>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <form method="post" action="{{ route('item.update', $item->id) }}" >
         @method('PATCH')
         @csrf
@@ -35,6 +21,6 @@
             <label for="itemRate">Rate:</label>
             <input type="text" class="form-control" id="rate" placeholder="Enter Address" name="rate" value="{{ $item->rate }}">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-success">Submit</button>
     </form>
 @endsection
