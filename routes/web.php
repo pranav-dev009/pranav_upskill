@@ -15,17 +15,25 @@ use App\Http\Controllers\ItemsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts/app');
 });
 
 Route::get('/aboutus', function () {
-    return view('aboutus.aboutus');
+    return view('aboutus/aboutus');
 });
 
 Route::get('/people/{id?}', function ($id) {
     return view('people.show', ['id' => $id]);
 })->name('people.show');
 
-  
-Route::resource('item', ItemsController::class)
-->only(['index', 'create', 'show', 'store', 'edit', 'update']);
+Route::prefix('items')->group(function() {
+    Route::get('/',[ItemsController::class, 'index'])->name('items.index');
+    Route::get('/create',[ItemsController::class, 'create'])->name('items.create');
+    Route::post('/store',[ItemsController::class, 'store'])->name('items.store');
+    Route::get('/edit/{id?}',[ItemsController::class, 'edit'])->name('items.edit');
+    Route::post('/update/{id?}',[ItemsController::class, 'update'])->name('items.update');
+    Route::get('/destroy/{id?}',[ItemsController::class, 'destroy'])->name('items.destroy');
+});
+
+// Route::resource('item', ItemsController::class)
+// ->only(['index', 'create', 'show', 'store', 'edit', 'update']);

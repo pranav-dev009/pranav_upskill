@@ -6,10 +6,14 @@
                 <h2>Laravel 8 Items CRUD</h2>
         </div>
         <div class="col-lg-1">
-            <a class="btn btn-success" href="{{ route('item.create') }}">Add</a>
+            <a class="btn btn-primary" href="{{ route('items.create') }}">Add</a>
         </div>
     </div>
-
+    @if(Session::has('success'))
+        <div class="alert alert-success text-center">
+            {{ Session::get('success') }}
+        </div>
+    @endif
     <table class="table table-bordered">
         <tr>
             <th>No</th>
@@ -27,7 +31,10 @@
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->quantity }}</td>
                 <td>{{ $item->rate }}</td>
-                <td><a class="btn btn-primary" href="{{ route('item.edit', $item->id) }}">Edit</a></td>
+                <td>
+                    <a class="btn btn-warning" href="{{ route('items.edit',['id' => $item->id]) }}">Edit</a>
+                    <a class="btn btn-danger" href="{{ route('items.destroy',['id' => $item->id]) }}">Delete</a>
+                </td>
             </tr>
         @endforeach
     </table>

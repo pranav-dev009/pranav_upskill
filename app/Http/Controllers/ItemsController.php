@@ -49,7 +49,7 @@ class ItemsController extends Controller
         ]);
  
         $item->save();
-        return redirect('/item')->with('success', 'Item has been added');
+        return redirect('/items')->with('success', 'Item has been added');
     }
 
     /**
@@ -72,7 +72,7 @@ class ItemsController extends Controller
      */
     public function edit($id)
     {
-        $item = Items::findOrFail($id);
+        $item = Items::find($id);
         return view('items.edit', ['item' => $item]);
     }
 
@@ -92,13 +92,14 @@ class ItemsController extends Controller
         ]);
  
         $item = Items::find($id);
-        $item->name = $request->get('name');
-        $item->quantity = $request->get('quantity');
-        $item->rate = $request->get('rate');
+        $item->name = $request->name;
+        $item->quantity = $request->quantity;
+        $item->rate = $request->rate;
  
         $item->save();
  
-        return redirect('/item');
+        // return redirect('/items');
+        return redirect()->route('items.index');
     }
 
     /**
@@ -107,8 +108,13 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Items $items)
+    public function destroy($id)
     {
         //
-    }
+        $delete = Items::find($id);
+        $delete->delete();
+        return redirect()->back();
+    }    
 }
+
+
