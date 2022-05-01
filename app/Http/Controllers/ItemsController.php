@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Items;
 use Illuminate\Http\Request;
+use App\Http\Requests\Item;
 
 class ItemsController extends Controller
 {
@@ -34,22 +35,15 @@ class ItemsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Item $request)
     {
-        $request->validate([
-            'name'=>'required',
-            'quantity'=> 'required',
-            'rate' => 'required'
-        ]);
- 
-        $item = new Items([
-            'name' => $request->get('name'),
-            'quantity'=> $request->get('quantity'),
-            'rate'=> $request->get('rate')
-        ]);
- 
+        $validatedData = $request->validated();
+        $item = new Items();
+        $item->name =$request->get('name');
+        $item->quantity = $request->get('quantity');
+        $item->rate = $request->get('rate');
         $item->save();
-        return redirect('/items')->with('success', 'Item has been added');
+        return redirect()->route('items.index')->with('success', 'Item has been added');
     }
 
     /**
@@ -60,7 +54,8 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-        $item = Items::findOrFail($id);
+        //
+        $item = Items::find($id);
         return view('items.view', ['item' => $item]);
     }
 
@@ -72,6 +67,7 @@ class ItemsController extends Controller
      */
     public function edit($id)
     {
+        //
         $item = Items::find($id);
         return view('items.edit', ['item' => $item]);
     }
@@ -83,23 +79,16 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name'=>'required',
-            'quantity'=> 'required',
-            'rate' => 'required'
-        ]);
- 
+    public function update(Item $request, $id)
+    { 
+        //
+        $validatedData = $request->validated();
         $item = Items::find($id);
         $item->name = $request->name;
         $item->quantity = $request->quantity;
         $item->rate = $request->rate;
- 
         $item->save();
- 
-        // return redirect('/items');
-        return redirect()->route('items.index');
+        return redirect()->route('items.index')->with('update', 'Item has been updated');
     }
 
     /**
@@ -113,8 +102,6 @@ class ItemsController extends Controller
         //
         $delete = Items::find($id);
         $delete->delete();
-        return redirect()->back();
-    }    
+        return redirect()->back()->with('delete', 'Item has been deleted successfully');
+    }
 }
-
-

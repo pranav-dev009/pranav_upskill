@@ -35,5 +35,3 @@ Route::prefix('items')->group(function() {
     Route::get('/destroy/{id?}',[ItemsController::class, 'destroy'])->name('items.destroy');
 });
 
-// Route::resource('item', ItemsController::class)
-// ->only(['index', 'create', 'show', 'store', 'edit', 'update']);

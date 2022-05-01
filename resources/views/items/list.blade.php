@@ -14,6 +14,16 @@
             {{ Session::get('success') }}
         </div>
     @endif
+    @if(Session::has('update'))
+    <div class="alert alert-info text-center">
+        {{ Session::get('update') }}
+    </div>
+    @endif
+    @if(Session::has('delete'))
+    <div class="alert alert-success text-center">
+        {{ Session::get('delete') }}
+    </div>
+    @endif
     <table class="table table-bordered">
         <tr>
             <th>No</th>

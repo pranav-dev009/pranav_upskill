@@ -14,16 +14,31 @@
         @csrf
         <div class="form-group">
             <label for="itemName">Name:</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter Item Name" name="name">
+            <input type="text" class="form-control" id="name" placeholder="Enter Item Name" name="name" value="{{ old('name') }}" @if ($errors->has('name')) autofocus @endif>
         </div>
+        @error('name')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+        @enderror
         <div class="form-group">
             <label for="itemQuantity">Quantity:</label>
-            <input type="text" class="form-control" id="quantity" placeholder="Enter Item Quantity" name="quantity">
+            <input type="text" class="form-control" id="quantity" placeholder="Enter Item Quantity" name="quantity" value="{{ old('quantity') }}" @if ($errors->has('quantity')) autofocus @endif>
         </div>
+        @error('quantity')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+        @enderror
         <div class="form-group">
             <label for="itemRate">Rate:</label>
-            <input type="text" class="form-control" id="rate" placeholder="Enter Item Rate" name="rate">
+            <input type="text" class="form-control" id="rate" placeholder="Enter Item Rate" name="rate" value="{{ old('rate') }}" @if ($errors->has('rate')) autofocus @endif>
         </div>
+        @error('rate')
+        <div class="alert alert-danger">
+            {{ $message }}
+        </div>
+        @enderror
         <button type="reset" class="btn btn-danger">Reset</button>
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
