@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemsController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +16,22 @@ use App\Http\Controllers\ItemsController;
 */
 
 Route::get('/', function () {
-    return view('layouts/app');
+    return view('login.index');
 });
 
 Route::get('/aboutus', function () {
-    return view('aboutus/aboutus');
+    return view('aboutus.aboutus');
 });
 
 Route::get('/people/{id?}', function ($id) {
     return view('people.show', ['id' => $id]);
 })->name('people.show');
+
+Route::prefix('login')->group(function() {
+    Route::get('/',[LoginController::class, 'index'])->name('login.index');
+    Route::post('/auth',[LoginController::class, 'auth'])->name('login.auth');
+    Route::get('/register',[LoginController::class, 'create'])->name('login.create');
+});
 
 Route::prefix('items')->group(function() {
     Route::get('/',[ItemsController::class, 'index'])->name('items.index');
