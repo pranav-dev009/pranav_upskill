@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,12 @@ Route::get('/people/{id?}', function ($id) {
 Route::prefix('login')->group(function() {
     Route::get('/',[LoginController::class, 'index'])->name('login.index');
     Route::post('/auth',[LoginController::class, 'auth'])->name('login.auth');
-    Route::get('/register',[LoginController::class, 'create'])->name('login.create');
+    Route::get('/store',[RegisterController::class, 'store'])->name('register.store');
+});
+
+Route::prefix('register')->group(function() {
+    Route::get('/', [RegisterController::class, 'index'])->name('register.index');
+    Route::post('/register', [RegisterController::class, 'register'])->name('register.register');
 });
 
 Route::prefix('items')->group(function() {

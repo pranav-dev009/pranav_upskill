@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    //
     public function index() {
         return view('login.index');
     }
@@ -19,7 +18,7 @@ class LoginController extends Controller
         ])->first();
         if($request->email == $user->email) {
             if(Hash::check($request->password, $user->password)) {
-
+                return redirect()->route('items.index');
             }
             else {
                 return redirect()->back()->with('failedLogin', 'Password is incorrect');
@@ -28,9 +27,5 @@ class LoginController extends Controller
         else {
             return redirect()->back()->with('failedLogin', 'Username not found');
         }
-    }
-
-    public function create() {
-        return view('login.register');
     }
 }

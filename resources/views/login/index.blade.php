@@ -11,6 +11,11 @@
                 <div class="card-header bg-secondary">
                     <h3 class="text-white text-center">Login</h3>
                 </div>
+                @if(Session::has('success'))
+                    <div class=" mt-2 alert alert-success text-center">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
                 @if(Session::has('failedLogin'))
                     <div class=" mt-2 alert alert-danger text-center">
                         {{ Session::get('failedLogin') }}
@@ -33,7 +38,7 @@
                             </div>
                         </form>
                         <div class="mt-3 ml-3 mb-3 text-center">
-                            <a href="{{route('login.create')}}" class="text-secondary">New User?, Register here</a>
+                            <a href="{{route('register.index')}}" class="text-secondary">New User?, Register here</a>
                         </div>
                     </div>
                 </form>
