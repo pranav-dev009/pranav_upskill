@@ -1,6 +1,7 @@
 @extends('layouts.app')
-
+@section('title', 'Items CRUD')
 @section('content')
+<div class="container">
     <div class="row">
         <div>
             <h2>Items CRUD</h2>
@@ -20,4 +21,5 @@
             <td>{{ $item->rate }}</td>
         </tr>
     </table>
+</div>
 @endsection

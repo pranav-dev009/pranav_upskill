@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'About Us Page')
 @section('content')
-<div class="container-fluid">
+<div class="container">
     <div class="row" style="width: 90%; border: 1px solid black;">
         <div class="col-md-6">
             <img src="/images/pranav.jpg" alt="" width="500" height="500" style="padding: 10px 10px 10px 10px">

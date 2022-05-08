@@ -1,18 +1,16 @@
 @extends('layouts.app')
+@section('title', 'Items CRUD')
 @section('content')
+<div class="container">
     <div class="row">
-        <!-- Admin Registration Image -->
-        <div class="col-lg-6 d-none d-lg-block text-center" id="registerImg">
-            {{-- <img src="/images/admin_register.jpg" width="500" height="500" alt="adminImg"> --}}
-        </div>
-        <!-- Admin Registration Form -->
+        <div class="col-md-3"></div>
         <div class="col-md-6">
             <div class="card ml-2 mr-2" id="admin_registration_form">
                 <div class="card-header bg-secondary">
                     <h3 class="text-white text-center">Admin Registration</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('register.register')}}" method="POST" id="adminDetails" name="adminDetails" class="mt-3" enctype="multipart/form-data">
+                    <form action="{{route('register.register')}}" method="POST" id="adminDetails" name="adminDetails" class="mt-3">
                         @csrf
                         @if(Session::has('failedRegistration'))
                         <div class=" mt-2 alert alert-danger text-center">
@@ -54,5 +52,7 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3"></div>
     </div>
+</div>
 @endsection

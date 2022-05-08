@@ -15,13 +15,17 @@
         ]
     ];
 ?>
-@for ($i = 0; $i < count($people); $i++)
-    @if ($id != "")
-        <div>Name : {{ $people[$id]['name']; }}</div>
-        <div>Technology : {{ $people[$id]['tech']; }}</div>
-        @break;
-    @endif
-    <div>Name : {{ $people[$i]['name']; }}</div>
-    <div>Technology : {{ $people[$i]['tech']; }}</div>
-@endfor
+<div class="container">
+    <div class="row">
+        @for ($i = 0; $i < count($people); $i++)
+            @if ($id != "")
+                <div>Name : {{ $people[$id]['name']; }}</div>
+                <div>Technology : {{ $people[$id]['tech']; }}</div>
+                @break;
+            @endif
+            <div>Name : {{ $people[$i]['name']; }}</div>
+            <div>Technology : {{ $people[$i]['tech']; }}</div>
+        @endfor
+    </div>
+</div>
 @endsection

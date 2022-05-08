@@ -1,6 +1,7 @@
 @extends('layouts.app')
-
+@section('title', 'Items CRUD')
 @section('content')
+<div class="container">
     <div class="row">
         <div class="col-lg-11">
             <h2>Add New Item</h2>
@@ -9,7 +10,6 @@
             <a class="btn btn-dark" href="{{ route('items.index') }}"> Back</a>
         </div>
     </div>
-
     <form action="{{ route('items.store') }}" method="POST">
         @csrf
         <div class="form-group">
@@ -42,4 +42,5 @@
         <button type="reset" class="btn btn-danger">Reset</button>
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
+</div>
 @endsection

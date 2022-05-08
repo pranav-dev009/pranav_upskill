@@ -29,22 +29,25 @@ Route::get('/people/{id?}', function ($id) {
 })->name('people.show');
 
 Route::prefix('login')->group(function() {
-    Route::get('/',[LoginController::class, 'index'])->name('login.index');
+    Route::get('/',[LoginController::class, 'index'])->name('login.index')->middleware('customcheck');
     Route::post('/auth',[LoginController::class, 'auth'])->name('login.auth');
     Route::get('/store',[RegisterController::class, 'store'])->name('register.store');
 });
 
 Route::prefix('register')->group(function() {
-    Route::get('/', [RegisterController::class, 'index'])->name('register.index');
+    Route::get('/', [RegisterController::class, 'index'])->name('register.index')->middleware('customcheck');
     Route::post('/register', [RegisterController::class, 'register'])->name('register.register');
 });
 
 Route::prefix('items')->group(function() {
-    Route::get('/',[ItemsController::class, 'index'])->name('items.index');
-    Route::get('/create',[ItemsController::class, 'create'])->name('items.create');
+    Route::get('/',[ItemsController::class, 'index'])->name('items.index')->middleware('customcheck');
+    Route::get('/create',[ItemsController::class, 'create'])->name('items.create')->middleware('customcheck');
     Route::post('/store',[ItemsController::class, 'store'])->name('items.store');
-    Route::get('/edit/{id?}',[ItemsController::class, 'edit'])->name('items.edit');
+    Route::get('/edit/{id?}',[ItemsController::class, 'edit'])->name('items.edit')->middleware('customcheck');
     Route::post('/update/{id?}',[ItemsController::class, 'update'])->name('items.update');
-    Route::get('/destroy/{id?}',[ItemsController::class, 'destroy'])->name('items.destroy');
+    Route::get('/destroy/{id?}',[ItemsController::class, 'destroy'])->name('items.destroy')->middleware('customcheck');
 });
 
+Route::prefix('logout')->group(function() {
+    Route::get('/', [LoginController::class, 'logout'])->name('login.logout');
+});

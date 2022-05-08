@@ -1,6 +1,7 @@
 @extends('layouts.app')
-
+@section('title', 'Items CRUD')
 @section('content')
+<div class="container">
     <div class="row">
         <div>
             <h2>Update item</h2>
@@ -23,4 +24,5 @@
         <button type="submit" class="btn btn-success">Submit</button>
         <a href={{ route('items.index') }} class="btn btn-secondary">Cancel</a>
     </form>
+</div>
 @endsection
