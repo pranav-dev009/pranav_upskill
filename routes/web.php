@@ -51,3 +51,7 @@ Route::prefix('items')->group(function() {
 Route::prefix('logout')->group(function() {
     Route::get('/', [LoginController::class, 'logout'])->name('login.logout');
 });
+
+//google login
+Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('login/google/callback', [LoginController::class, 'handleGoogleCallback'])->name('loginCallback.google');

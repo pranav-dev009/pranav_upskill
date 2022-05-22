@@ -41,6 +41,9 @@
                         <div class="mt-2 ml-3 text-center">
                             <input type="submit" name="submit" id="submit" value="Submit" class="mt-1 btn btn-success">
                         </div>
+                        <div class="mt-2 ml-3 text-center">
+                            <a href="{{route('login.google')}}" class="text-secondary">Login with Google</a>
+                        </div>
                     </form>
                     <div class="mt-3 ml-3 mb-3 text-center">
                         <a href="{{route('register.index')}}" class="text-secondary">New User?, Register here</a>
