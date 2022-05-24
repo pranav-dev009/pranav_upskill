@@ -42,7 +42,10 @@
                             <input type="submit" name="submit" id="submit" value="Submit" class="mt-1 btn btn-success">
                         </div>
                         <div class="mt-2 ml-3 text-center">
-                            <a href="{{route('login.google')}}" class="text-secondary">Login with Google</a>
+                            <br>
+                            <a href="{{route('login.google')}}" class="btn btn-danger">Login with Google</a>
+                            <br><br>
+                            <a href="{{route('login.facebook')}}" class="btn btn-primary">Login with Facebook</a>
                         </div>
                     </form>
                     <div class="mt-3 ml-3 mb-3 text-center">

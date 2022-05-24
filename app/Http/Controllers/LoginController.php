@@ -6,7 +6,7 @@ use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
-
+use Illuminate\Support\Facades\Mail;
 class LoginController extends Controller
 {
     public function index() {
@@ -17,13 +17,15 @@ class LoginController extends Controller
         $user = User::where([
             'email' => $request->email
         ])->first();
-        if($request->email == $user->email) {
-            if(Hash::check($request->password, $user->password)) {
-                $request->session()->put('user', $user->name);
-                return redirect()->route('items.index');
-            }
-            else {
-                return redirect()->back()->with('failedLogin', 'Password is incorrect');
+        if($user) {
+            if($request->email == $user->email) {
+                if(Hash::check($request->password, $user->password)) {
+                    $request->session()->put('user', $user->name);
+                    return redirect()->route('items.index');
+                }
+                else {
+                    return redirect()->back()->with('failedLogin', 'Password is incorrect');
+                }
             }
         }
         else {
@@ -56,6 +58,13 @@ class LoginController extends Controller
                 $newUser->password = Hash::make($request->getId());
                 $newUser->save();
             }
+            $data['name'] = $request->name;
+            $data['email'] = $user['email'] = $request->email;
+            $data['password'] = $request->getId();
+            Mail::send('mail', $data, function($messages) use ($user) {
+                $messages->to($user['email']);
+                $messages->subject('Registration Successful');
+            });
             return redirect()->route('items.index');
         }
         catch(\Throwable $th) {
@@ -63,5 +72,30 @@ class LoginController extends Controller
         }
     }
 
-    
+    // google login
+    public function redirectToFacebook() {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    // google callback
+    public function handleFacebookCallback () {
+        try {
+            $request = Socialite::driver('facebook')->stateless()->user();
+            $checkUser = User::where([
+                'email' => $request->email
+            ])->first();
+            Session::put('user', $request->name);
+            if(!$checkUser) {
+                $newUser = new User();
+                $newUser->name = $request->name;
+                $newUser->email = $request->email;
+                $newUser->password = Hash::make($request->getId());
+                $newUser->save();
+            }
+            return redirect()->route('items.index');
+        }
+        catch(\Throwable $th) {
+            throw $th;
+        }
+    }   
 }

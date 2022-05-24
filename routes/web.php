@@ -37,6 +37,7 @@ Route::prefix('login')->group(function() {
 Route::prefix('register')->group(function() {
     Route::get('/', [RegisterController::class, 'index'])->name('register.index')->middleware('customcheck');
     Route::post('/register', [RegisterController::class, 'register'])->name('register.register');
+    // Route::post('/register', [RegisterController::class, 'register'])->middleware(['auth', 'verified'])->name('register.register');
 });
 
 Route::prefix('items')->group(function() {
@@ -55,3 +56,7 @@ Route::prefix('logout')->group(function() {
 //google login
 Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
 Route::get('login/google/callback', [LoginController::class, 'handleGoogleCallback'])->name('loginCallback.google');
+
+//google login
+Route::get('login/facebook', [LoginController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback'])->name('loginCallback.facebook');
