@@ -22,7 +22,7 @@
             <input type="text" class="form-control" id="rate" placeholder="Enter rate" name="rate" value="{{ $item->rate }}">
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
-        <a href={{ route('items.index') }} class="btn btn-secondary">Cancel</a>
+        <a href="{{ route('items.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 @endsection

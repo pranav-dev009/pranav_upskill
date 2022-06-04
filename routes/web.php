@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\CompanyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +62,21 @@ Route::get('login/google/callback', [LoginController::class, 'handleGoogleCallba
 //google login
 Route::get('login/facebook', [LoginController::class, 'redirectToFacebook'])->name('login.facebook');
 Route::get('login/facebook/callback', [LoginController::class, 'handleFacebookCallback'])->name('loginCallback.facebook');
+
+Route::prefix('company')->group(function() {
+    Route::get('/',[CompanyController::class, 'index'])->name('company.index')->middleware('customcheck');
+    Route::get('/create',[CompanyController::class, 'create'])->name('company.create')->middleware('customcheck');
+    Route::post('/store',[CompanyController::class, 'store'])->name('company.store');
+    Route::get('/edit/{id?}',[CompanyController::class, 'edit'])->name('company.edit')->middleware('customcheck');
+    Route::post('/update/{id?}',[CompanyController::class, 'update'])->name('company.update');
+    Route::get('/destroy/{id?}',[CompanyController::class, 'destroy'])->name('company.destroy')->middleware('customcheck');
+});
+
+Route::prefix('employee')->group(function() {
+    Route::get('/',[EmployeeController::class, 'index'])->name('employee.index')->middleware('customcheck');
+    Route::get('/create',[EmployeeController::class, 'create'])->name('employee.create')->middleware('customcheck');
+    Route::post('/store',[EmployeeController::class, 'store'])->name('employee.store');
+    Route::get('/edit/{id?}',[EmployeeController::class, 'edit'])->name('employee.edit')->middleware('customcheck');
+    Route::post('/update/{id?}',[EmployeeController::class, 'update'])->name('employee.update');
+    Route::get('/destroy/{id?}',[EmployeeController::class, 'destroy'])->name('employee.destroy')->middleware('customcheck');
+});

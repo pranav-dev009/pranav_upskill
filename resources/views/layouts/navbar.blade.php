@@ -5,14 +5,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('items.index') }}">Items</a>
-            </li>
             @if (Session::has('user'))
             <li>
                 <p>Welcome, {{ Session::get('user'); }}</p>
             </li>
             @endif
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('items.index') }}">Items</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('company.index') }}">Company</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('employee.index') }}">Employee</a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('login.logout') }}">Logout</a>
             </li>
