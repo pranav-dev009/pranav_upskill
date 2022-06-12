@@ -47,7 +47,7 @@ class CompanyController extends Controller
         $company->logo = $request->file('logo')->getClientOriginalName();
         $company->website = $request->get('website');
         $company->save();
-        $request->file('logo')->storeAs('images', $request->file('logo')->getClientOriginalName());
+        $request->file('logo')->storeAs('public/images', $request->file('logo')->getClientOriginalName());
         return redirect()->route('company.index')->with('success', 'Company has been added');
     }
 
@@ -57,9 +57,11 @@ class CompanyController extends Controller
      * @param  \App\Models\Companies  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public static function show($id)
     {
         //
+        $company = Companies::find($id);
+        return $company->name;
     }
 
     /**
@@ -92,7 +94,7 @@ class CompanyController extends Controller
         $company->logo = $request->file('logo')->getClientOriginalName();
         $company->website = $request->get('website');
         $company->save();
-        $request->file('logo')->storeAs('images', $request->file('logo')->getClientOriginalName());
+        $request->file('logo')->storeAs('public/images', $request->file('logo')->getClientOriginalName());
         return redirect()->route('company.index')->with('update', 'Company has been updated');
     }
 

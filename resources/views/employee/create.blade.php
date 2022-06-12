@@ -32,7 +32,12 @@
         @enderror
         <div class="form-group">
             <label for="company">Company:</label>
-            <input type="text" class="form-control" id="company" placeholder="Enter Company Name" name="company" value="{{ old('company') }}" @if ($errors->has('company')) autofocus @endif>
+            <select name="company">
+                <option value="">Select Company</option>
+            @foreach ($companies as $company)
+                <option value={{ $company->id }}>{{ $company->name }}</option>
+            @endforeach
+            </select>
         </div>
         @error('company')
         <div class="alert alert-danger">

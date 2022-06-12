@@ -44,7 +44,7 @@
                     <td>{{ $company->name }}</td>
                     <td>{{ $company->email }}</td>
                     <td><a href="{{ $company->website }}">{{ $company->website }}</a></td>
-                    <td><img src="{{ asset($company->logo) }}"></img></td>
+                    <td><img src={{ asset("storage/images/".$company->logo) }} width="150" height="150"></td>
                     <td>
                         <a class="btn btn-warning" href="{{ route('company.edit',['id' => $company->id]) }}">Edit</a>
                         <a class="btn btn-danger" href="{{ route('company.destroy',['id' => $company->id]) }}">Delete</a>

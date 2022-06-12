@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employees;
 use Illuminate\Http\Request;
 use App\Http\Requests\Employee;
+use App\Models\Companies;
 
 class EmployeeController extends Controller
 {
@@ -28,7 +29,8 @@ class EmployeeController extends Controller
     public function create()
     {
         //
-        return view('employee.create');
+        $companies = Companies::all();
+        return view('employee.create', ['companies' => $companies]);
     }
 
     /**
@@ -44,7 +46,7 @@ class EmployeeController extends Controller
         $employee = new Employees();
         $employee->firstname =$request->get('firstname');
         $employee->lastname = $request->get('lastname');
-        $employee->company = $request->get('company');
+        $employee->company_id = $request->get('company');
         $employee->save();
         return redirect()->route('employee.index')->with('success', 'Employee has been added');
     }
@@ -70,7 +72,8 @@ class EmployeeController extends Controller
     {
         //
         $employee = Employees::find($id);
-        return view('employee.edit', ['employee' => $employee]);
+        $companies = Companies::all();
+        return view('employee.edit', ['employee' => $employee, 'companies' => $companies]);
     }
 
     /**
@@ -87,7 +90,7 @@ class EmployeeController extends Controller
         $employee = Employees::find($id);
         $employee->firstname = $request->firstname;
         $employee->lastname = $request->lastname;
-        $employee->company = $request->company;
+        $employee->company_id = $request->company;
         $employee->save();
         return redirect()->route('employee.index')->with('update', 'Employee has been updated');
     }

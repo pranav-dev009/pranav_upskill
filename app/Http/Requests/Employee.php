@@ -27,7 +27,7 @@ class Employee extends FormRequest
             //
             'firstname'=>'bail|required|alpha',
             'lastname'=> 'bail|required|alpha',
-            'company' => 'bail|required|alpha_dash'
+            'company' => 'bail|required'
         ];
     }
 }

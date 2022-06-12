@@ -42,7 +42,8 @@
                     <td>{{ ++$i }}</td>
                     <td>{{ $employee->firstname }}</td>
                     <td>{{ $employee->lastname }}</td>
-                    <td>{{ $employee->company }}</td>
+                    <td>@php echo App\Http\Controllers\CompanyController::show($employee->company_id);  @endphp</td>
+                    
                     <td>
                         <a class="btn btn-warning" href="{{ route('employee.edit',['id' => $employee->id]) }}">Edit</a>
                         <a class="btn btn-danger" href="{{ route('employee.destroy',['id' => $employee->id]) }}">Delete</a>
