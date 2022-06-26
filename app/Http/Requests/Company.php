@@ -27,7 +27,7 @@ class Company extends FormRequest
             //
             'companyname'=>'bail|required|alpha',
             'companyemail'=> 'bail|required',
-            'logo' => 'bail|required',
+            'logo' => 'bail|required|dimensions:min_width=100,min_height=100',
             'website' => 'bail|required',
         ];
     }

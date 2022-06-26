@@ -14,6 +14,9 @@
             'id' => 3, 'name' => 'Dhaval', 'tech' => 'Odoo'
         ]
     ];
+    if((int)$id >= count($people)) {
+        $id = "";
+    }
 ?>
 <div class="container">
     <div class="row">

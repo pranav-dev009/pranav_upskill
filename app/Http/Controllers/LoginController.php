@@ -50,7 +50,6 @@ class LoginController extends Controller
             $checkUser = User::where([
                 'email' => $request->email
             ])->first();
-            Session::put('user', $request->name);
             if(!$checkUser) {
                 $newUser = new User();
                 $newUser->name = $request->name;
@@ -65,6 +64,7 @@ class LoginController extends Controller
                 $messages->to($user['email']);
                 $messages->subject('Registration Successful');
             });
+            Session::put('user', $request->name);
             return redirect()->route('items.index');
         }
         catch(\Throwable $th) {
@@ -84,7 +84,6 @@ class LoginController extends Controller
             $checkUser = User::where([
                 'email' => $request->email
             ])->first();
-            Session::put('user', $request->name);
             if(!$checkUser) {
                 $newUser = new User();
                 $newUser->name = $request->name;
@@ -92,6 +91,7 @@ class LoginController extends Controller
                 $newUser->password = Hash::make($request->getId());
                 $newUser->save();
             }
+            Session::put('user', $request->name);
             return redirect()->route('items.index');
         }
         catch(\Throwable $th) {

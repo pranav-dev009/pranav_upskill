@@ -20,15 +20,15 @@ use App\Http\Controllers\CompanyController;
 
 Route::get('/', function () {
     return view('login.index');
-});
+})->middleware('customcheck');
 
 Route::get('/aboutus', function () {
     return view('aboutus.aboutus');
-});
+})->middleware('customcheck');
 
-Route::get('/people/{id?}', function ($id) {
+Route::get('/people/{id?}', function ($id=null) {
     return view('people.show', ['id' => $id]);
-})->name('people.show');
+})->name('people.show')->middleware('customcheck');
 
 Route::prefix('login')->group(function() {
     Route::get('/',[LoginController::class, 'index'])->name('login.index')->middleware('customcheck');
