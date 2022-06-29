@@ -26,11 +26,11 @@
             {{ Session::get('delete') }}
         </div>
         @endif
-        <table class="table table-bordered">
+        <table class="table table-bordered yajra-datatable">
             <tr>
                 <th>No</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
                 <th>Company</th>
                 <th width="280px">Action</th>
             </tr>
@@ -52,4 +52,20 @@
             @endforeach
         </table>
     </div>
+    <script type="text/javascript">
+  $(function () {
+    var table = $('.yajra-datatable').DataTable({
+        processing: true,
+        ajax: "",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'firstname', name: 'firstname'},
+            {data: 'lastname', name: 'lastname'},
+            {data: 'company', name: 'company'},
+            {data: 'action', name: 'action', orderable: false, searchable: true},
+        ]
+    });
+    
+  });
+</script>
 @endsection
