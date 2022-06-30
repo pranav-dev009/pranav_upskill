@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Items CRUD')
 @section('content')
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <div>
-            <h2>Update item</h2>
+            <h2>Update Item Information</h2>
         </div>
     </div>
     <form method="post" action="{{ route('items.update', ['id' => $item->id]) }}" >

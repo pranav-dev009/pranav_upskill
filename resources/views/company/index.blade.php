@@ -26,31 +26,48 @@
             {{ Session::get('delete') }}
         </div>
         @endif
-        <table class="table table-bordered">
-            <tr>
-                <th>No</th>
-                <th>Company Name</th>
-                <th>Company Email</th>
-                <th>Company Website</th>
-                <th>Company Logo</th>
-                <th width="280px">Action</th>
-            </tr>
+        <table class="table table-bordered yajra-datatable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Company Name</th>
+                    <th>Company Email</th>
+                    <th>Company Website</th>
+                    <th>Company Logo</th>
+                    <th width="280px">Action</th>
+                </tr>
+            </thead>
             @php
                 $i = 0;
             @endphp
             @foreach ($companies as $company)
-                <tr>
-                    <td>{{ ++$i }}</td>
-                    <td>{{ $company->name }}</td>
-                    <td>{{ $company->email }}</td>
-                    <td><a href="{{ $company->website }}">{{ $company->website }}</a></td>
-                    <td><img src={{ asset("storage/images/".$company->logo) }} width="150" height="150"></td>
-                    <td>
-                        <a class="btn btn-warning" href="{{ route('company.edit',['id' => $company->id]) }}">Edit</a>
-                        <a class="btn btn-danger" href="{{ route('company.destroy',['id' => $company->id]) }}">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ $company->name }}</td>
+                <td>{{ $company->email }}</td>
+                <td><a href="{{ $company->website }}">{{ $company->website }}</a></td>
+                <td><img src={{ asset("storage/images/".$company->logo) }} width="150" height="150"></td>
+                <td>
+                    <a class="btn btn-warning" href="{{ route('company.edit',['id' => $company->id]) }}">Edit</a>
+                    <a class="btn btn-danger" href="{{ route('company.destroy',['id' => $company->id]) }}">Delete</a>
+                </td>
+            </tr>
             @endforeach
         </table>
     </div>
+    <script type="text/javascript">
+        $(function () {
+            var table = $('.yajra-datatable').DataTable({
+                processing: true,
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {data: 'website', name: 'website'},
+                    {data: 'logo', name: 'logo', orderable: false, searchable: false},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+        });
+    </script>
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Company Data')
 @section('content')
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <div>
             <h2>Update Company Information</h2>

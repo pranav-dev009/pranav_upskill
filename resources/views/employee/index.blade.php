@@ -27,45 +27,44 @@
         </div>
         @endif
         <table class="table table-bordered yajra-datatable">
-            <tr>
-                <th>No</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Company</th>
-                <th width="280px">Action</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Company</th>
+                    <th width="280px">Action</th>
+                </tr>
+            </thead>
             @php
                 $i = 0;
             @endphp
             @foreach ($employees as $employee)
-                <tr>
-                    <td>{{ ++$i }}</td>
-                    <td>{{ $employee->firstname }}</td>
-                    <td>{{ $employee->lastname }}</td>
-                    <td>@php echo App\Http\Controllers\CompanyController::show($employee->company_id);  @endphp</td>
-                    
-                    <td>
-                        <a class="btn btn-warning" href="{{ route('employee.edit',['id' => $employee->id]) }}">Edit</a>
-                        <a class="btn btn-danger" href="{{ route('employee.destroy',['id' => $employee->id]) }}">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ $employee->firstname }}</td>
+                <td>{{ $employee->lastname }}</td>
+                <td>@php echo App\Http\Controllers\CompanyController::show($employee->company_id);  @endphp</td>
+                <td>
+                    <a class="btn btn-warning" href="{{ route('employee.edit',['id' => $employee->id]) }}">Edit</a>
+                    <a class="btn btn-danger" href="{{ route('employee.destroy',['id' => $employee->id]) }}">Delete</a>
+                </td>
+            </tr>
             @endforeach
         </table>
     </div>
     <script type="text/javascript">
-  $(function () {
-    var table = $('.yajra-datatable').DataTable({
-        processing: true,
-        ajax: "",
-        columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'firstname', name: 'firstname'},
-            {data: 'lastname', name: 'lastname'},
-            {data: 'company', name: 'company'},
-            {data: 'action', name: 'action', orderable: false, searchable: true},
-        ]
-    });
-    
-  });
-</script>
+        $(function () {
+            var table = $('.yajra-datatable').DataTable({
+                processing: true,
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'firstname', name: 'firstname'},
+                    {data: 'lastname', name: 'lastname'},
+                    {data: 'company', name: 'company'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+        });
+    </script>
 @endsection
