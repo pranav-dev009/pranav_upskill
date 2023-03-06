@@ -20,6 +20,7 @@ class CreateCompanyTable extends Migration
             $table->string('logo');
             $table->string('website')->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Companies;
 use Illuminate\Http\Request;
 use App\Http\Requests\Company;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CompanyController extends Controller
 {
@@ -13,10 +14,15 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $companies = Companies::all();
+        if ($request->has('trashed')) {
+            $companies = Companies::onlyTrashed()->get();
+        }
+        else {
+            $companies = Companies::all();
+        }
         return view('company.index', ['companies' => $companies]);
     }
 
@@ -60,7 +66,11 @@ class CompanyController extends Controller
     public static function show($id)
     {
         //
-        $company = Companies::find($id);
+        try {
+            $company = Companies::findOrFail($id);
+        } catch(ModelNotFoundException $exception) {
+            return redirect()->route('company.index')->with('missingcompany', 'The company does not exists');
+        }
         return $company->name;
     }
 
@@ -70,10 +80,14 @@ class CompanyController extends Controller
      * @param  \App\Models\Companies  $company
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id = "")
     {
         //
-        $company = Companies::find($id);
+        try {
+            $company = Companies::findOrFail($id);
+        } catch(ModelNotFoundException $exception) {
+            return redirect()->route('company.index')->with('missingcompany', 'The company does not exists');
+        }
         return view('company.edit', ['company' => $company]);
     }
 
@@ -88,7 +102,11 @@ class CompanyController extends Controller
     {
         //
         $validatedData = $request->validated();
-        $company = Companies::find($id);
+        try {
+            $company = Companies::findOrFail($id);
+        } catch(ModelNotFoundException $exception) {
+            return redirect()->route('company.index')->with('missingcompany', 'The company does not exists');
+        }
         $company->name =$request->get('companyname');
         $company->email = $request->get('companyemail');
         $company->logo = $request->file('logo')->getClientOriginalName();
@@ -104,11 +122,37 @@ class CompanyController extends Controller
      * @param  \App\Models\Companies  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id = "")
     {
         //
-        $delete = Companies::find($id);
+        try {
+            $delete = Companies::findOrFail($id);
+        } catch(ModelNotFoundException $exception) {
+            return redirect()->route('company.index')->with('missingcompany', 'The company does not exists');
+        }
         $delete->delete();
         return redirect()->back()->with('delete', 'Company has been removed successfully');
+    }
+
+    /**
+     * restore all post
+     *
+     * @return response()
+     */
+    public function restore($id)
+    {
+        Companies::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('companyrestore', 'Company has been restored succesfully');
+    }
+
+    /**
+     * restore all post
+     *
+     * @return response()
+     */
+    public function restoreAll()
+    {
+        Companies::onlyTrashed()->restoreAll();
+        return redirect()->back()->with('companyrestoreall', 'All the deleted companies have been restored succesfully');
     }
 }

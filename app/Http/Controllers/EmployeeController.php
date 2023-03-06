@@ -6,6 +6,7 @@ use App\Models\Employees;
 use Illuminate\Http\Request;
 use App\Http\Requests\Employee;
 use App\Models\Companies;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EmployeeController extends Controller
 {
@@ -14,10 +15,15 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $employee = Employees::all();
+        if ($request->has('trashed')) {
+            $employee = Employees::onlyTrashed()->get();
+        }
+        else {
+            $employee = Employees::all();
+        }
         return view('employee.index', ['employees' => $employee]);
     }
 
@@ -68,10 +74,14 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id = "")
     {
         //
-        $employee = Employees::find($id);
+        try {
+            $employee = Employees::findOrFail($id);
+        } catch(ModelNotFoundException $exception) {
+            return redirect()->route('employee.index')->with('missingemployee', 'The employee does not exists');
+        }
         $companies = Companies::all();
         return view('employee.edit', ['employee' => $employee, 'companies' => $companies]);
     }
@@ -87,7 +97,11 @@ class EmployeeController extends Controller
     {
         //
         $validatedData = $request->validated();
-        $employee = Employees::find($id);
+        try {
+            $employee = Employees::findOrFail($id);
+        } catch(ModelNotFoundException $exception) {
+            return redirect()->route('employee.index')->with('missingemployee', 'The employee does not exists');
+        }
         $employee->firstname = $request->firstname;
         $employee->lastname = $request->lastname;
         $employee->company_id = $request->company;
@@ -101,11 +115,37 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id = "")
     {
         //
-        $delete = Employees::find($id);
+        try {
+            $delete = Employees::findOrFail($id);
+        } catch(ModelNotFoundException $exception) {
+            return redirect()->route('employee.index')->with('missingemployee', 'The employee does not exists');
+        }
         $delete->delete();
         return redirect()->back()->with('delete', 'Employee has been removed successfully');
+    }
+
+    /**
+     * restore specific post
+     *
+     * @return void
+     */
+    public function restore($id)
+    {
+        Employees::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('employeerestore', 'Employee has been restored succesfully');
+    }
+
+    /**
+     * restore all post
+     *
+     * @return response()
+     */
+    public function restoreAll()
+    {
+        Employees::onlyTrashed()->restoreAll();
+        return redirect()->back()->with('employeerestoreall', 'All the deleted employees have been restored succesfully');
     }
 }

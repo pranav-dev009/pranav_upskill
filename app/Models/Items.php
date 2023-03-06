@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Items extends Model
 {
@@ -14,5 +15,5 @@ class Items extends Model
         'quantity',
         'rate'
     ];
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 }

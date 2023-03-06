@@ -49,6 +49,8 @@ Route::prefix('items')->group(function() {
     Route::get('/edit/{id?}',[ItemsController::class, 'edit'])->name('items.edit')->middleware('customcheck');
     Route::post('/update/{id?}',[ItemsController::class, 'update'])->name('items.update');
     Route::get('/destroy/{id?}',[ItemsController::class, 'destroy'])->name('items.destroy')->middleware('customcheck');
+    Route::get('/restore/{id}', [ItemsController::class, 'restore'])->name('ItemsController.restore')->middleware('customcheck');
+    Route::get('/restore-all', [ItemsController::class, 'restoreAll'])->name('ItemsController.restoreAll')->middleware('customcheck');
 });
 
 Route::prefix('logout')->group(function() {
@@ -70,6 +72,8 @@ Route::prefix('company')->group(function() {
     Route::get('/edit/{id?}',[CompanyController::class, 'edit'])->name('company.edit')->middleware('customcheck');
     Route::post('/update/{id?}',[CompanyController::class, 'update'])->name('company.update');
     Route::get('/destroy/{id?}',[CompanyController::class, 'destroy'])->name('company.destroy')->middleware('customcheck');
+    Route::get('/restore/{id}', [CompanyController::class, 'restore'])->name('CompanyController.restore')->middleware('customcheck');
+    Route::get('/restore-all', [CompanyController::class, 'restoreAll'])->name('CompanyController.restoreAll')->middleware('customcheck');
 });
 
 Route::prefix('employee')->group(function() {
@@ -79,4 +83,6 @@ Route::prefix('employee')->group(function() {
     Route::get('/edit/{id?}',[EmployeeController::class, 'edit'])->name('employee.edit')->middleware('customcheck');
     Route::post('/update/{id?}',[EmployeeController::class, 'update'])->name('employee.update');
     Route::get('/destroy/{id?}',[EmployeeController::class, 'destroy'])->name('employee.destroy')->middleware('customcheck');
+    Route::get('/restore/{id}', [EmployeeController::class, 'restore'])->name('EmployeeController.restore')->middleware('customcheck');
+    Route::get('/restore-all', [EmployeeController::class, 'restoreAll'])->name('EmployeeController.restoreAll')->middleware('customcheck');
 });

@@ -26,6 +26,21 @@
             {{ Session::get('delete') }}
         </div>
         @endif
+        @if(Session::has('missingitem'))
+        <div class="alert alert-danger text-center">
+            {{ Session::get('missingitem') }}
+        </div>
+        @endif
+        @if(Session::has('itemrestore'))
+        <div class="alert alert-success text-center">
+            {{ Session::get('itemrestore') }}
+        </div>
+        @endif
+        @if(Session::has('itemrestoreall'))
+        <div class="alert alert-success text-center">
+            {{ Session::get('itemrestoreall') }}
+        </div>
+        @endif
         <table class="table table-bordered yajra-datatable">
             <thead>
                 <tr>

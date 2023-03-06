@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Items;
 use Illuminate\Http\Request;
 use App\Http\Requests\Item;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ItemsController extends Controller
 {
@@ -13,9 +14,13 @@ class ItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = Items::all();
+        if ($request->has('trashed')) {
+            $items = Items::onlyTrashed()->get();
+        } else {
+            $items = Items::all();
+        }
         return view('items.list', ['items' => $items]);
     }
 
@@ -55,7 +60,11 @@ class ItemsController extends Controller
     public function show($id)
     {
         //
-        $item = Items::find($id);
+        try {
+            $item = Items::findOrFail($id);
+        } catch(ModelNotFoundException $exception) {
+            return redirect()->route('items.index')->with('missingitem', 'The item does not exists');
+        }
         return view('items.view', ['item' => $item]);
     }
 
@@ -65,10 +74,14 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id = "")
     {
         //
-        $item = Items::find($id);
+        try {
+            $item = Items::findOrFail($id);
+        } catch(ModelNotFoundException $exeption) {
+            return redirect()->route('items.index')->with('missingitem', 'The item does not exists');
+        }
         return view('items.edit', ['item' => $item]);
     }
 
@@ -83,7 +96,11 @@ class ItemsController extends Controller
     { 
         //
         $validatedData = $request->validated();
-        $item = Items::find($id);
+        try {
+            $item = Items::findOrFail($id);
+        } catch(ModelNotFoundException $exeption) {
+            return redirect()->route('items.index')->with('missingitem', 'The item does not exists');
+        }
         $item->name = $request->name;
         $item->quantity = $request->quantity;
         $item->rate = $request->rate;
@@ -97,11 +114,37 @@ class ItemsController extends Controller
      * @param  \App\Models\Items  $items
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id = "")
     {
         //
-        $delete = Items::find($id);
+        try {
+            $delete = Items::findOrFail($id);
+        } catch(ModelNotFoundException $exeption) {
+            return redirect()->route('items.index')->with('missingitem', 'The item does not exists');
+        }
         $delete->delete();
         return redirect()->back()->with('delete', 'Item has been deleted successfully');
+    }
+
+    /**
+     * restore specific post
+     *
+     * @return void
+     */
+    public function restore($id)
+    {
+        Items::withTrashed()->find($id)->restore();
+        return redirect()->back()->with('itemrestore', 'Item has been restored succesfully');
+    }  
+  
+    /**
+     * restore all post
+     *
+     * @return response()
+     */
+    public function restoreAll()
+    {
+        Items::onlyTrashed()->restore();
+        return redirect()->back()->with('itemrestoreall', 'All the deleted items have been restored succesfully');;
     }
 }

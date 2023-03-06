@@ -26,6 +26,21 @@
             {{ Session::get('delete') }}
         </div>
         @endif
+        @if(Session::has('missingemployee'))
+        <div class="alert alert-danger text-center">
+            {{ Session::get('missingemployee')}}
+        </div>
+        @endif
+        @if(Session::has('employeerestore'))
+        <div class="alert alert-success text-center">
+            {{ Session::get('employeerestore') }}
+        </div>
+        @endif
+        @if(Session::has('employeerestoreall'))
+        <div class="alert alert-success text-center">
+            {{ Session::get('employeerestoreall') }}
+        </div>
+        @endif
         <table class="table table-bordered yajra-datatable">
             <thead>
                 <tr>

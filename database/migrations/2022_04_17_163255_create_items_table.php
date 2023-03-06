@@ -19,6 +19,7 @@ class CreateItemsTable extends Migration
             $table->double('quantity');
             $table->double('rate');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

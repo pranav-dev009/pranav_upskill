@@ -26,6 +26,21 @@
             {{ Session::get('delete') }}
         </div>
         @endif
+        @if(Session::has('missingcompany'))
+        <div class="alert alert-danger text-center">
+            {{ Session::get('missingcompany')}}
+        </div>
+        @endif
+        @if(Session::has('companyrestore'))
+        <div class="alert alert-success text-center">
+            {{ Session::get('companyrestore') }}
+        </div>
+        @endif
+        @if(Session::has('companyrestoreall'))
+        <div class="alert alert-success text-center">
+            {{ Session::get('companyrestoreall') }}
+        </div>
+        @endif
         <table class="table table-bordered yajra-datatable">
             <thead>
                 <tr>
@@ -46,7 +61,7 @@
                 <td>{{ $company->name }}</td>
                 <td>{{ $company->email }}</td>
                 <td><a href="{{ $company->website }}">{{ $company->website }}</a></td>
-                <td><img src={{ asset("storage/images/".$company->logo) }} width="150" height="150"></td>
+                <td><img src={{ asset("storage/images/".$company->logo) }} width="150" height="150" alt="Company Logo"></td>
                 <td>
                     <a class="btn btn-warning" href="{{ route('company.edit',['id' => $company->id]) }}">Edit</a>
                     <a class="btn btn-danger" href="{{ route('company.destroy',['id' => $company->id]) }}">Delete</a>
