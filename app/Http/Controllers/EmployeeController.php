@@ -127,6 +127,17 @@ class EmployeeController extends Controller
         return redirect()->back()->with('delete', 'Employee has been removed successfully');
     }
 
+
+    /**
+     * get all deleted employees
+     *
+     * @return response()
+     */
+    public function retrive() {
+        $employees = Employees::onlyTrashed()->get();
+        return view('employee.trash', ['employees' => $employees]);
+    }
+
     /**
      * restore specific post
      *
@@ -145,7 +156,7 @@ class EmployeeController extends Controller
      */
     public function restoreAll()
     {
-        Employees::onlyTrashed()->restoreAll();
-        return redirect()->back()->with('employeerestoreall', 'All the deleted employees have been restored succesfully');
+        Employees::onlyTrashed()->restore();
+        return redirect()->route('employee.index')->with('employeerestoreall', 'All the deleted employees have been restored succesfully');
     }
 }

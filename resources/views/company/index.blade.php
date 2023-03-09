@@ -4,11 +4,14 @@
     @include('layouts.navbar')
     <div class="container">
         <div class="row">
-            <div class="col-lg-11">
+            <div class="col-lg-10">
                 <h2>Company Data</h2>
             </div>
             <div class="col-lg-1">
                 <a class="btn btn-primary" href="{{ route('company.create') }}">Add</a>
+            </div>
+            <div class="col-lg-1">
+                <a class="btn btn-primary" href="{{ route('company.retrive') }}">Trash</a>
             </div>
         </div>
         @if(Session::has('success'))
@@ -39,6 +42,11 @@
         @if(Session::has('companyrestoreall'))
         <div class="alert alert-success text-center">
             {{ Session::get('companyrestoreall') }}
+        </div>
+        @endif
+        @if(Session::has('companyhasemployee'))
+        <div class="alert alert-danger text-center">
+            {{ Session::get('companyhasemployee') }}
         </div>
         @endif
         <table class="table table-bordered yajra-datatable">

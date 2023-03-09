@@ -127,6 +127,16 @@ class ItemsController extends Controller
     }
 
     /**
+     * get all deleted items
+     *
+     * @return response()
+     */
+    public function retrive() {
+        $items = Items::onlyTrashed()->get();
+        return view('items.trash', ['items' => $items]);
+    }
+
+    /**
      * restore specific post
      *
      * @return void
@@ -145,6 +155,6 @@ class ItemsController extends Controller
     public function restoreAll()
     {
         Items::onlyTrashed()->restore();
-        return redirect()->back()->with('itemrestoreall', 'All the deleted items have been restored succesfully');;
+        return redirect()->route('items.index')->with('itemrestoreall', 'All the deleted items have been restored succesfully');;
     }
 }

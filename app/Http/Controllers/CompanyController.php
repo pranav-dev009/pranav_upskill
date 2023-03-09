@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Companies;
 use Illuminate\Http\Request;
 use App\Http\Requests\Company;
+use App\Models\Employees;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CompanyController extends Controller
@@ -124,14 +125,29 @@ class CompanyController extends Controller
      */
     public function destroy($id = "")
     {
-        //
-        try {
-            $delete = Companies::findOrFail($id);
-        } catch(ModelNotFoundException $exception) {
-            return redirect()->route('company.index')->with('missingcompany', 'The company does not exists');
+        $employeeCount = Employees::select('*')->where('company_id', '=', $id)->get()->count();
+        if($employeeCount > 0) {
+            return redirect()->route('company.index')->with('companyhasemployee', 'This company cannot be deleted as it contains employees');
         }
-        $delete->delete();
-        return redirect()->back()->with('delete', 'Company has been removed successfully');
+        else {
+            try {
+                $delete = Companies::findOrFail($id);
+            } catch(ModelNotFoundException $exception) {
+                return redirect()->route('company.index')->with('missingcompany', 'The company does not exists');
+            }
+            $delete->delete();
+            return redirect()->back()->with('delete', 'Company has been removed successfully');
+        }
+    }
+
+    /**
+     * get all deleted companies
+     *
+     * @return response()
+     */
+    public function retrive() {
+        $companies = Companies::onlyTrashed()->get();
+        return view('company.trash', ['companies' => $companies]);
     }
 
     /**
@@ -152,7 +168,7 @@ class CompanyController extends Controller
      */
     public function restoreAll()
     {
-        Companies::onlyTrashed()->restoreAll();
-        return redirect()->back()->with('companyrestoreall', 'All the deleted companies have been restored succesfully');
+        Companies::onlyTrashed()->restore();
+        return redirect()->route('company.index')->with('companyrestoreall', 'All the deleted companies have been restored succesfully');
     }
 }

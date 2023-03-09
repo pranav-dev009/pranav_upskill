@@ -4,11 +4,14 @@
     @include('layouts.navbar')
     <div class="container">
         <div class="row">
-            <div class="col-lg-11">
+            <div class="col-lg-10">
                 <h2>Employee Data</h2>
             </div>
             <div class="col-lg-1">
                 <a class="btn btn-primary" href="{{ route('employee.create') }}">Add</a>
+            </div>
+            <div class="col-lg-1">
+                <a class="btn btn-primary" href="{{ route('employee.retrive') }}">Trash</a>
             </div>
         </div>
         @if(Session::has('success'))
