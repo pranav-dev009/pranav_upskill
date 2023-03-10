@@ -47,7 +47,10 @@ class ItemsController extends Controller
         $item->name =$request->get('name');
         $item->quantity = $request->get('quantity');
         $item->rate = $request->get('rate');
-        $item->save();
+        $saved = $item->save();
+        if(!$saved) {
+            return redirect()->route('items.index')->with('failure', 'Item could not be added');    
+        }
         return redirect()->route('items.index')->with('success', 'Item has been added');
     }
 
@@ -104,7 +107,10 @@ class ItemsController extends Controller
         $item->name = $request->name;
         $item->quantity = $request->quantity;
         $item->rate = $request->rate;
-        $item->save();
+        $saved = $item->save();
+        if(!$saved) {
+            return redirect()->route('items.index')->with('updatefailure', 'Item could not be updated');    
+        }
         return redirect()->route('items.index')->with('update', 'Item has been updated');
     }
 
@@ -122,7 +128,10 @@ class ItemsController extends Controller
         } catch(ModelNotFoundException $exeption) {
             return redirect()->route('items.index')->with('missingitem', 'The item does not exists');
         }
-        $delete->delete();
+        $deleted = $delete->delete();
+        if(!$deleted) {
+            return redirect()->back()->with('deletefailure', 'Item could not be deleted');    
+        }
         return redirect()->back()->with('delete', 'Item has been deleted successfully');
     }
 
@@ -155,6 +164,65 @@ class ItemsController extends Controller
     public function restoreAll()
     {
         Items::onlyTrashed()->restore();
-        return redirect()->route('items.index')->with('itemrestoreall', 'All the deleted items have been restored succesfully');;
+        return redirect()->route('items.index')->with('itemrestoreall', 'All the deleted items have been restored succesfully');
+    }
+
+    public function createAPI(Item $request) {
+        $validatedData = $request->validated();
+        $item = new Items();
+        $item->name =$request->get('name');
+        $item->quantity = $request->get('quantity');
+        $item->rate = $request->get('rate');
+        $saved = $item->save();
+        if(!$saved) {
+            return ['Failure' => 'Item could not be added'];    
+        }
+        return ['Success' => 'Item has been added successfully'];
+    }
+
+    public function deleteAPI(Request $request) {
+        $id = $request->get('id');
+        try {
+            $delete = Items::findOrFail($id);
+        } catch(ModelNotFoundException $exeption) {
+            return ['Failure' => 'Item doesn\'t exists'];
+        }
+        $deleted = $delete->delete();
+        if(!$deleted) {
+            return ['Failure' => 'Item could not be deleted'];    
+        }
+        return ['Success' => 'Item has been deleted successfully'];
+    }
+
+    public function updateAPI(Item $request) {
+        $validatedData = $request->validated();
+        try {
+            $item = Items::findOrFail($request->get('id'));
+        } catch(ModelNotFoundException $exeption) {
+            return ['Failure' => 'Item doesn\'t exists'];
+        }
+        $item->name = $request->get('name');
+        $item->quantity = $request->get('quantity');
+        $item->rate = $request->get('rate');
+        $saved = $item->save();
+        if(!$saved) {
+            return ['Failure' => 'Item could not be updated'];    
+        }
+        return ['Success' => 'Item has been updated successfully'];
+    }
+
+    public function readAPI(Request $request) {
+        if($request->has('id')) {
+            $id = $request->get('id');
+            try {
+                $items = Items::findOrFail($id);
+            } catch(ModelNotFoundException $exeption) {
+                return ['Failure' => 'Item doesn\'t exists'];
+            }
+        }
+        else {
+            $items = Items::all();
+        }
+        return ['Success' => $items];
     }
 }

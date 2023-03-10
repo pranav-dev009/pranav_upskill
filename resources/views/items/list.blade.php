@@ -19,14 +19,29 @@
                 {{ Session::get('success') }}
             </div>
         @endif
+        @if(Session::has('failure'))
+            <div class="alert alert-danger text-center">
+                {{ Session::get('failure') }}
+            </div>
+        @endif
         @if(Session::has('update'))
         <div class="alert alert-info text-center">
             {{ Session::get('update') }}
         </div>
         @endif
+        @if(Session::has('updatefailure'))
+        <div class="alert alert-danger text-center">
+            {{ Session::get('updatefailure') }}
+        </div>
+        @endif
         @if(Session::has('delete'))
         <div class="alert alert-success text-center">
             {{ Session::get('delete') }}
+        </div>
+        @endif
+        @if(Session::has('deletefailure'))
+        <div class="alert alert-danger text-center">
+            {{ Session::get('deletefailure') }}
         </div>
         @endif
         @if(Session::has('missingitem'))
