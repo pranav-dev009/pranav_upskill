@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ItemsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +25,13 @@ Route::post('items/create/', [ItemsController::class, 'createAPI'])->name('items
 Route::post('items/read/', [ItemsController::class, 'readAPI'])->name('items.read');
 Route::post('items/update/', [ItemsController::class, 'updateAPI'])->name('items.update');
 Route::post('items/delete/', [ItemsController::class, 'deleteAPI'])->name('items.delete');
+
+Route::post('company/create/', [CompanyController::class, 'createAPI'])->name('company.create');
+Route::post('company/read/', [CompanyController::class, 'readAPI'])->name('company.read');
+Route::post('company/update/', [CompanyController::class, 'updateAPI'])->name('company.update');
+Route::post('company/delete/', [CompanyController::class, 'deleteAPI'])->name('company.delete');
+
+Route::post('employee/create/', [EmployeeController::class, 'createAPI'])->name('employee.create');
+Route::post('employee/read/', [EmployeeController::class, 'readAPI'])->name('employee.read');
+Route::post('employee/update/', [EmployeeController::class, 'updateAPI'])->name('employee.update');
+Route::post('employee/delete/', [EmployeeController::class, 'deleteAPI'])->name('employee.delete');

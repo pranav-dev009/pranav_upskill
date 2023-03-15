@@ -159,4 +159,71 @@ class EmployeeController extends Controller
         Employees::onlyTrashed()->restore();
         return redirect()->route('employee.index')->with('employeerestoreall', 'All the deleted employees have been restored succesfully');
     }
+
+    public function createAPI(Employee $request) {
+        $validatedData = $request->validated();
+        $employee = new Employees();
+        $employee->firstname =$request->get('firstname');
+        $employee->lastname = $request->get('lastname');
+        $companyID = Companies::select('id')->where('name', '=', $request->get('company'))->get();
+        if ($companyID == "") {
+            return ['Failure' => 'Invalid company id'];
+        }
+        $employee->company_id = $companyID[0]->id;
+        $saved = $employee->save();
+        if(!$saved) {
+            return ['Failure' => 'Employee could not be added'];    
+        }
+        return ['Success' => 'Employee has been added successfully'];
+    }
+
+    public function deleteAPI(Request $request) {
+        $id = $request->get('id');
+        try {
+            $delete = Employees::findOrFail($id);
+        } catch(ModelNotFoundException $exeption) {
+            return ['Failure' => 'Employee doesn\'t exists'];
+        }
+        $deleted = $delete->delete();
+        if(!$deleted) {
+            return ['Failure' => 'Employee could not be deleted'];    
+        }
+        return ['Success' => 'Employee has been deleted successfully'];
+    }
+
+    public function updateAPI(Employee $request) {
+        $validatedData = $request->validated();
+        try {
+            $employee = Employees::findOrFail($request->get('id'));
+        } catch(ModelNotFoundException $exeption) {
+            return ['Failure' => 'Employee doesn\'t exists'];
+        }
+        $employee->firstname = $request->get('firstname');
+        $employee->lastname = $request->get('lastname');
+        $companyID = Companies::select('id')->where('name', '=', $request->get('company'))->get();
+        if ($companyID == "") {
+            return ['Failure' => 'Invalid company id'];
+        }
+        $employee->company_id = $companyID[0]->id;
+        $saved = $employee->save();
+        if(!$saved) {
+            return ['Failure' => 'Employee could not be updated'];    
+        }
+        return ['Success' => 'Employee has been updated successfully'];
+    }
+
+    public function readAPI(Request $request) {
+        if($request->has('id')) {
+            $id = $request->get('id');
+            try {
+                $employees = Employees::findOrFail($id);
+            } catch(ModelNotFoundException $exeption) {
+                return ['Failure' => 'Employee doesn\'t exists'];
+            }
+        }
+        else {
+            $employees = Employees::all();
+        }
+        return ['Success' => $employees];
+    }
 }

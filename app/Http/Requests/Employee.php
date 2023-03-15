@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class Employee extends FormRequest
 {
@@ -29,5 +31,11 @@ class Employee extends FormRequest
             'lastname'=> 'bail|required|alpha',
             'company' => 'bail|required'
         ];
+    }
+
+    public function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json([
+            $validator->errors()
+        ]));
     }
 }

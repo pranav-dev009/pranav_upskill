@@ -171,4 +171,67 @@ class CompanyController extends Controller
         Companies::onlyTrashed()->restore();
         return redirect()->route('company.index')->with('companyrestoreall', 'All the deleted companies have been restored succesfully');
     }
+
+    public function createAPI(Company $request) {
+        $validatedData = $request->validated();
+        $company = new Companies();
+        $company->name =$request->get('companyname');
+        $company->email = $request->get('companyemail');
+        $company->logo = $request->file('logo')->getClientOriginalName();
+        $company->website = $request->get('website');
+        $request->file('logo')->storeAs('public/images', $request->file('logo')->getClientOriginalName());
+        $saved = $company->save();
+        if(!$saved) {
+            return ['Failure' => 'Company could not be added'];    
+        }
+        return ['Success' => 'Company has been added successfully'];
+    }
+
+    public function deleteAPI(Request $request) {
+        $id = $request->get('id');
+        try {
+            $delete = Companies::findOrFail($id);
+        } catch(ModelNotFoundException $exeption) {
+            return ['Failure' => 'Company doesn\'t exists'];
+        }
+        $deleted = $delete->delete();
+        if(!$deleted) {
+            return ['Failure' => 'Company could not be deleted'];    
+        }
+        return ['Success' => 'Company has been deleted successfully'];
+    }
+
+    public function updateAPI(Company $request) {
+        $validatedData = $request->validated();
+        try {
+            $company = Companies::findOrFail($request->get('id'));
+        } catch(ModelNotFoundException $exeption) {
+            return ['Failure' => 'Company doesn\'t exists'];
+        }
+        $company->name = $request->get('companyname');
+        $company->email = $request->get('companyemail');
+        $company->logo = $request->file('logo')->getClientOriginalName();
+        $company->website = $request->get('website');
+        $request->file('logo')->storeAs('public/images', $request->file('logo')->getClientOriginalName());
+        $saved = $company->save();
+        if(!$saved) {
+            return ['Failure' => 'Company could not be updated'];    
+        }
+        return ['Success' => 'Company has been updated successfully'];
+    }
+
+    public function readAPI(Request $request) {
+        if($request->has('id')) {
+            $id = $request->get('id');
+            try {
+                $companies = Companies::findOrFail($id);
+            } catch(ModelNotFoundException $exeption) {
+                return ['Failure' => 'Company doesn\'t exists'];
+            }
+        }
+        else {
+            $companies = Companies::all();
+        }
+        return ['Success' => $companies];
+    }
 }
