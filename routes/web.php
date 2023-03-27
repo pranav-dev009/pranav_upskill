@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\RazorpayPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,3 +90,6 @@ Route::prefix('employee')->group(function() {
     Route::get('/restore/{id}', [EmployeeController::class, 'restore'])->name('employee.restore')->middleware('customcheck');
     Route::get('/restore-all', [EmployeeController::class, 'restoreAll'])->name('employee.restoreAll')->middleware('customcheck');
 });
+
+Route::get('razorpay-payment', [RazorpayPaymentController::class, 'index']);
+Route::post('razorpay-payment', [RazorpayPaymentController::class, 'store'])->name('razorpay.payment.store');
